@@ -1,0 +1,29 @@
+ID,Feature,Title,Technique,Preconditions,Steps,Test Data,Expected Result,Priority
+TC-01,Login,Valid login with standard user,Equivalence partitioning (valid class),On login page,"Enter username; enter password; click Login",standard_user / secret_sauce,User is logged in and products page is shown,High
+TC-02,Login,Login with locked-out user,Equivalence partitioning (invalid class),On login page,"Enter username; enter password; click Login",locked_out_user / secret_sauce,Error shown: user has been locked out,High
+TC-03,Login,Login with wrong password,Equivalence partitioning (invalid class),On login page,"Enter username; enter wrong password; click Login",standard_user / wrong_pass,Error: username and password do not match,High
+TC-04,Login,Login with unknown username,Equivalence partitioning (invalid class),On login page,"Enter unknown username; enter password; click Login",ghost_user / secret_sauce,Error: username and password do not match,Medium
+TC-05,Login,Login with empty username,Decision table (user absent / pass present),On login page,"Leave username blank; enter password; click Login",(blank) / secret_sauce,Error: Username is required,High
+TC-06,Login,Login with empty password,Decision table (user present / pass absent),On login page,"Enter username; leave password blank; click Login",standard_user / (blank),Error: Password is required,High
+TC-07,Login,Login with both fields empty,Decision table (user absent / pass absent),On login page,"Leave both blank; click Login",(blank) / (blank),Error: Username is required,Medium
+TC-08,Login,Password field is masked,Exploratory / usability,On login page,Type into the password field and observe,secret_sauce,Characters are hidden (dots),Low
+TC-09,Products,Six products are listed after login,System,Logged in as standard_user,Open products page and count items,-,Exactly 6 products are shown,High
+TC-10,Products,Sort products Name A to Z,System / data,On products page,Select sort = Name (A to Z),-,Products are ordered alphabetically ascending,Medium
+TC-11,Products,Sort products Name Z to A,System / data,On products page,Select sort = Name (Z to A),-,Products are ordered alphabetically descending,Medium
+TC-12,Products,Sort products Price low to high,System / data,On products page,Select sort = Price (low to high),-,Products ordered cheapest first,Medium
+TC-13,Products,Sort products Price high to low,System / data,On products page,Select sort = Price (high to low),-,Products ordered most expensive first,Medium
+TC-14,Products,Add one product to cart,System,On products page,Click Add to cart on one product,-,Cart badge shows 1 and button changes to Remove,High
+TC-15,Products,Remove product from cart on products page,System,One item in cart,Click Remove on that product,-,Cart badge decreases; button returns to Add to cart,Medium
+TC-16,Cart,Cart shows the added item,System,One item added,Open the cart,-,The cart lists the correct item with its price,High
+TC-17,Cart,Cart quantity is 1 by default,Boundary value (minimum qty),One item added,Open the cart and read quantity,-,Quantity shows 1,Medium
+TC-18,Cart,Continue shopping returns to products,System,On cart page,Click Continue Shopping,-,Products page is shown again,Low
+TC-19,Checkout,Start checkout with an item,System,One item in cart,Open cart and click Checkout,-,Checkout step one (your information) is shown,High
+TC-20,Checkout,Checkout with empty first name,Boundary value (empty field),On checkout step one,"Leave first name blank; fill others; Continue",(blank)/Doe/12345,Error: First Name is required,High
+TC-21,Checkout,Checkout with empty postal code,Boundary value (empty field),On checkout step one,"Fill names; leave postal code blank; Continue",Jane/Doe/(blank),Error: Postal Code is required,High
+TC-22,Checkout,Checkout with valid single-char postal code,Boundary value (minimum length),On checkout step one,"Fill names; postal code = 1; Continue",Jane/Doe/1,Proceeds to overview (accepts short code),Low
+TC-23,Checkout,Checkout with long postal code,Boundary value (large input),On checkout step one,"Fill names; postal code = 20 chars; Continue",Jane/Doe/12345678901234567890,Proceeds to overview,Low
+TC-24,Checkout,Complete a valid order,System / end to end,Item in cart; valid info entered,"Continue to overview; click Finish",Jane/Doe/12345,Order confirmation Thank you for your order is shown,High
+TC-25,Checkout,Order summary shows correct total,System / data,On checkout overview,Read item total and total,-,Total equals item price plus tax,Medium
+TC-26,Logout,Log out from the menu,System,Logged in,Open the menu and click Logout,-,User is returned to the login page,Medium
+TC-27,Login,Performance_glitch_user login is slow,Exploratory / performance,On login page,"Login and time how long the products page takes",performance_glitch_user / secret_sauce,Login succeeds but noticeably slow,Low
+TC-28,Products,Product image is correct for each item,Exploratory / visual,On products page,Compare each product image to its name,-,Each image matches its product (known defect user may break this),Medium

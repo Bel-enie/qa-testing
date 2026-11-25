@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Slow page</title></head>
+<body>
+  <!-- This page deliberately adds the ".title" element AFTER 2 seconds.
+       It lets us demonstrate flakiness reliably, with no dependence on the
+       network: a test with no wait reads .title too early and fails every time;
+       a test with an explicit wait succeeds every time. -->
+  <h1 id="heading">Loading...</h1>
+  <div id="slot"></div>
+  <script>
+    setTimeout(function () {
+      var el = document.createElement("span");
+      el.className = "title";
+      el.textContent = "Products";
+      document.getElementById("slot").appendChild(el);
+      document.getElementById("heading").textContent = "Done";
+    }, 2000);
+  </script>
+</body>
+</html>
