@@ -1,0 +1,45 @@
+name: Tests
+
+# WHEN this runs: on every push and on every pull request to main.
+# That is Continuous Integration (CI): the tests run automatically on GitHub's
+# servers every time code changes, so a mistake is caught straight away.
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest   # a fresh Linux machine GitHub gives us for free
+
+    steps:
+      # 1. Get our code onto the runner
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      # 2. Install Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 3. Install our dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Run the API tests and produce an HTML report.
+      #    We run only the API tests in CI: they are fast and need no browser,
+      #    which makes them ideal for a server with no screen.
+      - name: Run API tests
+        run: pytest -m api --html=report.html --self-contained-html -v
+
+      # 5. Save the report so we can download it from the run afterwards.
+      - name: Upload test report
+        if: always()            # upload even if tests failed, so we can see why
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: report.html
